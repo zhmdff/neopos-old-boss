@@ -1,0 +1,37 @@
+{
+  "id": "/boss-pwa-v1",
+  "name": "NeoPos Boss",
+  "short_name": "NeoPos Boss",
+  "description": "NeoPos restoran idarəetmə paneli — hesabatlar, menyu, masalar",
+  "lang": "az",
+  "dir": "ltr",
+  "start_url": "/boss/dashboard?pwa=1",
+  "scope": "/boss",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "orientation": "any",
+  "background_color": "#ffffff",
+  "theme_color": "#0ea5e9",
+  "categories": ["business", "food"],
+  "prefer_related_applications": false,
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

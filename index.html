@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="az">
+  <head>
+    <meta charset="UTF-8" />
+    
+    <link rel="icon" href="/favicon.png" type="image/x-icon"  />
+    <link rel="icon" href="/favicon.png" type="image/x-icon"  />
+    <link rel="icon" href="/favicon.png" type="image/x-icon"  />
+    
+    <link rel="apple-touch-icon" sizes="192x192" href="/icon-192.png" />
+    <link rel="apple-touch-icon" href="/icon-192.png" />
+    
+    <link rel="manifest" href="/site.json" type="application/manifest+json" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#0ea5e9" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="application-name" content="NeoPos Boss" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="NeoPos Boss" />
+    
+    <title>NeoPos | Yeni Nəsil Restoran İdarəetmə Sistemi</title>
+    
+    <meta name="description" content="NeoPos - Restoranlar üçün ağıllı QR menyu, daxili uçot və hesabatlılıq sistemi. Biznesinizi rəqəmsallaşdırın." />
+    <meta name="keywords" content="neopos, qr menyu, restoran proqramı, pos sistemi, azərbaycan, naxış" />
+    
+    <meta property="og:title" content="NeoPos | Restoran İdarəetmə Sistemi" />
+    <meta property="og:description" content="QR menyu və daxili uçot sistemini elə indi sınaqdan keçirin." />
+    <meta property="og:image" content="/logo-share.png" />
+    <meta property="og:url" content="https://neopos.az" />
+    <meta property="og:type" content="website" />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "url": "https://neopos.az",
+        "logo": "https://neopos.az/favicon.png"
+      }
+    </script>
+
+    <script>
+      (function () {
+        var path = location.pathname || '';
+        if (path.indexOf('/boss') !== 0) return;
+        document.title = 'NeoPos Boss';
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker
+            .register('/sw.js', { scope: '/', updateViaCache: 'none' })
+            .catch(function () {});
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
