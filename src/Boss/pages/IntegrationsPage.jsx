@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import axios from 'axios';
 import { FiLink, FiSettings, FiTrash2, FiCheckCircle } from 'react-icons/fi';
 import toast, { Toaster } from 'react-hot-toast';
+import { getApiBaseUrl } from '../../utils/apiBaseUrl';
 
 const IntegrationCard = ({ title, subtitle, statusLabel, statusTone = 'neutral', actions }) => {
   const tone = useMemo(() => {
@@ -143,7 +144,7 @@ const EkassamParamsModal = ({ isOpen, onClose, company, onSave }) => {
 };
 
 const IntegrationsPage = () => {
-  const API_URL = import.meta.env.VITE_API_URL;
+  const API_URL = getApiBaseUrl();
   const [company, setCompany] = useState(null);
   const [loading, setLoading] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);

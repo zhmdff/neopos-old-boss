@@ -2,14 +2,14 @@ import React, { useRef, useState } from 'react';
 import axios from 'axios';
 import { FiPlus, FiTrash2, FiLoader, FiImage } from 'react-icons/fi';
 import toast from 'react-hot-toast';
+import { getApiBaseUrl, getApiOrigin } from '../../../utils/apiBaseUrl';
 
 const GalleryUpload = ({ settings, setSettings }) => {
   const fileInputRef = useRef(null);
   const [uploading, setUploading] = useState(false);
   
-  const API_URL = import.meta.env.VITE_API_URL;
-  // Məhsullar bölməsindəki kimi təmiz BASE_URL yaradırıq
-  const IMAGE_BASE = API_URL ? API_URL.replace('/api', '') : ''; 
+  const API_URL = getApiBaseUrl();
+  const IMAGE_BASE = getApiOrigin(); 
   const images = settings?.galleryImages || [];
 
   const handleFileChange = async (e) => {

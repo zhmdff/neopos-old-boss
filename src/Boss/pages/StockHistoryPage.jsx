@@ -4,6 +4,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import { FiBox, FiSearch, FiClock, FiMapPin } from 'react-icons/fi';
 import StockHistoryModal from '../components/StockHistory/StockHistoryModal';
 import BossPaginationBar from '../components/common/BossPaginationBar';
+import { getApiBaseUrl } from '../../utils/apiBaseUrl';
 
 const unitMapping = {
   "Piece": "ədəd", "Pcs": "ədəd", "Kilogram": "kq", "Gram": "qr",
@@ -12,7 +13,7 @@ const unitMapping = {
 };
 
 const StockHistoryPage = () => {
-  const API_URL = import.meta.env.VITE_API_URL;
+  const API_URL = getApiBaseUrl();
   const [data, setData] = useState({ items: [], totalCount: 0 });
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");

@@ -5,9 +5,10 @@ import { FiPlus, FiUser, FiPhone, FiEdit2, FiTrash2, FiSearch, FiMapPin } from '
 import AddSupplierModal from '../components/Supplier/AddSupplierModal';
 import EditSupplierModal from '../components/Supplier/EditSupplierModal';
 import GlobalDeleteModal from '../components/GlobalDeleteModal';
+import { getApiBaseUrl } from '../../utils/apiBaseUrl';
 
 const SuppliersPage = () => {
-  const API_URL = import.meta.env.VITE_API_URL;
+  const API_URL = getApiBaseUrl();
   const [suppliers, setSuppliers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [actionLoading, setActionLoading] = useState(false);

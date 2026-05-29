@@ -9,9 +9,10 @@ import SocialLinks from '../components/QR/SocialLinks';
 import GalleryUpload from '../components/QR/GalleryUpload';
 import MapLocation from '../components/QR/MapLocation';
 import QRCodeGenerator from '../components/QR/QRCodeGenerator';
+import { getApiBaseUrl } from '../../utils/apiBaseUrl';
 
 const QRSettings = () => {
-  const API_URL = import.meta.env.VITE_API_URL;
+  const API_URL = getApiBaseUrl();
   
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);

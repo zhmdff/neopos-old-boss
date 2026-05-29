@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { FiEdit2, FiTrash2, FiBox, FiTag, FiPrinter, FiTruck, FiCoffee } from 'react-icons/fi'; // 🔥 FiTruck əlavə edildi
 import api from '../../../api/axios';
+import { getApiOrigin } from '../../../utils/apiBaseUrl';
 import GlobalDeleteModal from '../GlobalDeleteModal';
 import ProductEditModal from './ProductEditModal';
 
@@ -13,8 +14,7 @@ const ProductItem = ({ product, onRefresh }) => {
   const user = userData ? JSON.parse(userData) : null;
   const companyId = user?.companyId;
 
-  const fullApiUrl = import.meta.env.VITE_API_URL;
-  const IMAGE_BASE = fullApiUrl ? fullApiUrl.replace('/api', '') : '';
+  const IMAGE_BASE = getApiOrigin();
 
   // Çatdırılma qiyməti fərqlidirsə yoxlayırıq
   const hasDifferentDeliveryPrice = product.deliveryPrice && 

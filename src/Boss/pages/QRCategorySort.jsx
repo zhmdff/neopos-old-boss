@@ -3,12 +3,13 @@ import axios from 'axios';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 import { FiMove, FiGrid, FiLoader } from 'react-icons/fi';
 import toast, { Toaster } from 'react-hot-toast';
+import { getApiBaseUrl } from '../../utils/apiBaseUrl';
 
 const QRCategorySort = () => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
-  const API_URL = import.meta.env.VITE_API_URL;
+  const API_URL = getApiBaseUrl();
 
   // Şirkət məlumatlarını alırıq
   const user = JSON.parse(localStorage.getItem('user'));

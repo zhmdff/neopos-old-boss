@@ -3,6 +3,7 @@ import axios from 'axios';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 import { FiMove, FiPackage, FiLoader, FiChevronRight } from 'react-icons/fi';
 import toast, { Toaster } from 'react-hot-toast';
+import { getApiBaseUrl } from '../../utils/apiBaseUrl';
 
 const QRProductSort = () => {
   const [categories, setCategories] = useState([]);
@@ -10,7 +11,7 @@ const QRProductSort = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
-  const API_URL = import.meta.env.VITE_API_URL;
+  const API_URL = getApiBaseUrl();
 
   const user = JSON.parse(localStorage.getItem('user'));
   const companyId = user?.companyId || user?.CompanyId;

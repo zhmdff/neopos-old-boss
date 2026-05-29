@@ -5,9 +5,10 @@ import { FiPlus, FiHome, FiMapPin, FiEdit2, FiTrash2, FiSearch, FiCheckCircle } 
 import AddWarehouseModal from '../components/Warehouse/AddWarehouseModal';
 import EditWarehouseModal from '../components/Warehouse/EditWarehouseModal';
 import GlobalDeleteModal from '../components/GlobalDeleteModal';
+import { getApiBaseUrl } from '../../utils/apiBaseUrl';
 
 const WarehousesPage = () => {
-  const API_URL = import.meta.env.VITE_API_URL;
+  const API_URL = getApiBaseUrl();
   const [warehouses, setWarehouses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [actionLoading, setActionLoading] = useState(false);

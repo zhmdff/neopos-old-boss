@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { FiX, FiRefreshCw, FiImage, FiEdit3 } from 'react-icons/fi';
 import api from '../../../api/axios';
+import { getApiBaseUrl } from '../../../utils/apiBaseUrl';
 
 const CategoryEditModal = ({ isOpen, onClose, onRefresh, categoryData }) => {
   const [nameAz, setNameAz] = useState('');
@@ -14,7 +15,7 @@ const CategoryEditModal = ({ isOpen, onClose, onRefresh, categoryData }) => {
   const fileInputRef = useRef(null);
 
   // .env-dən URL-i götürüb təmizləyirik
-  const apiUrl = import.meta.env.VITE_API_URL || "";
+  const apiUrl = getApiBaseUrl();
   const IMAGE_BASE_URL = apiUrl.replace(/\/api$/, ""); // Sondakı /api-ni silir
 
   useEffect(() => {

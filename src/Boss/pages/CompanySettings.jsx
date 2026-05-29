@@ -14,13 +14,14 @@ import {
   FiSend,
 } from 'react-icons/fi';
 import toast, { Toaster } from 'react-hot-toast';
+import { getApiBaseUrl, getApiOrigin } from '../../utils/apiBaseUrl';
 
 const RENEWAL_PHONE_DISPLAY = '+994 50 573 81 47';
 const RENEWAL_PHONE_E164 = '994505738147';
 
 const CompanySettings = () => {
-  const API_URL = import.meta.env.VITE_API_URL;
-  const IMAGE_BASE = API_URL ? API_URL.replace('/api', '') : '';
+  const API_URL = getApiBaseUrl();
+  const IMAGE_BASE = getApiOrigin();
   const fileInputRef = useRef(null);
   const posLockInputRef = useRef(null);
 

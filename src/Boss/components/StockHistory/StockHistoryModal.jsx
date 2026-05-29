@@ -3,11 +3,12 @@ import { createPortal } from 'react-dom';
 import axios from 'axios';
 import { FiX, FiClock, FiLoader, FiArrowUp, FiArrowDown, FiMapPin } from 'react-icons/fi';
 import moment from 'moment';
+import { getApiBaseUrl } from '../../../utils/apiBaseUrl';
 
 const StockHistoryModal = ({ isOpen, onClose, product, companyId }) => {
   const [history, setHistory] = useState([]);
   const [loading, setLoading] = useState(true);
-  const API_URL = import.meta.env.VITE_API_URL;
+  const API_URL = getApiBaseUrl();
 
   useEffect(() => {
     if (isOpen && product) {

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { FiX, FiUploadCloud, FiSave, FiPlus, FiTrash2, FiChevronDown, FiChevronUp } from 'react-icons/fi';
 import api from '../../../api/axios';
+import { getApiOrigin } from '../../../utils/apiBaseUrl';
 import WorkshopCombobox from './WorkshopCombobox';
 
 const ProductEditModal = ({ isOpen, onClose, onRefresh, productData }) => {
@@ -30,8 +31,7 @@ const ProductEditModal = ({ isOpen, onClose, onRefresh, productData }) => {
   const userData = JSON.parse(localStorage.getItem('user'));
   const companyId = userData?.companyId || userData?.CompanyId;
 
-  const fullApiUrl = import.meta.env.VITE_API_URL;
-  const IMAGE_BASE = fullApiUrl ? fullApiUrl.replace('/api', '') : '';
+  const IMAGE_BASE = getApiOrigin();
 
   const calculatedPrice = formData.markupType === 1 
     ? (Number(formData.costPrice || 0) + (Number(formData.costPrice || 0) * Number(formData.markupValue || 0) / 100))

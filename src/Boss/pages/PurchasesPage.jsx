@@ -6,11 +6,10 @@ import moment from 'moment';
 import AddPurchaseModal from '../components/Purchases/AddPurchaseModal';
 import PurchaseViewModal from '../components/Purchases/PurchaseViewModal';
 import BossPaginationBar from '../components/common/BossPaginationBar';
+import { getApiBaseUrl } from '../../utils/apiBaseUrl';
 
 const PurchasesPage = () => {
-  const BASE_URL = import.meta.env.VITE_API_URL.endsWith('/') 
-    ? import.meta.env.VITE_API_URL.slice(0, -1) 
-    : import.meta.env.VITE_API_URL;
+  const BASE_URL = getApiBaseUrl().replace(/\/api\/?$/i, '');
 
   const [data, setData] = useState({ items: [], totalCount: 0 });
   const [products, setProducts] = useState([]);
