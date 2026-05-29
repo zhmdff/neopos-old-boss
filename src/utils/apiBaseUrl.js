@@ -19,7 +19,7 @@ export function getApiBaseUrl() {
     }
   }
   const env = getEnvApiBaseUrl();
-  return env || "http://37.60.247.244:5050/api";
+  return env || "https://neopos.runasp.net/api";
 }
 
 export function getApiOrigin() {
