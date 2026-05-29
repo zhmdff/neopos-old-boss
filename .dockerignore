@@ -1,0 +1,29 @@
+# Build artifacts
+dist/
+out/
+build/
+
+# Dependencies
+node_modules/
+
+# Local data and secrets
+*.db
+*.db-shm
+*.db-wal
+data/
+.env
+.env.*
+!.env.example
+
+# IDEs
+.vscode/
+.idea/
+
+# Source control
+.git/
+.gitignore
+.dockerignore
+
+# Logs
+*.log
+npm-debug.log*

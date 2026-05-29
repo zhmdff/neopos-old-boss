@@ -99,6 +99,35 @@ const WorkshopEditModal = ({ isOpen, onClose, onRefresh, workshopData }) => {
             </button>
           </div>
 
+          {formData.isPrinting && (
+            <div className="space-y-4 p-5 bg-gray-50 rounded-3xl border border-gray-100 animate-fadeIn">
+              <div>
+                <label className="block text-[10px] font-black text-gray-400 uppercase ml-1 mb-1.5 italic">Printer Tipi</label>
+                <select 
+                  className="w-full px-5 py-3 bg-white border border-gray-100 rounded-xl outline-none focus:ring-2 focus:ring-[#0ea5e9] font-bold text-gray-700 text-sm"
+                  value={formData.printerType}
+                  onChange={e => setFormData({...formData, printerType: e.target.value})}
+                >
+                  <option value="None">Yoxdur</option>
+                  <option value="Network">Şəbəkə (LAN IP)</option>
+                  <option value="Default">Sistem Default</option>
+                </select>
+              </div>
+              
+              {formData.printerType === 'Network' && (
+                <div>
+                  <label className="block text-[10px] font-black text-gray-400 uppercase ml-1 mb-1.5 italic">Printer IP Ünvanı</label>
+                  <input 
+                    type="text" placeholder="Məs: 192.168.1.50"
+                    className="w-full px-5 py-3 bg-white border border-gray-100 rounded-xl outline-none focus:ring-2 focus:ring-[#0ea5e9] font-bold text-gray-700 text-sm" 
+                    value={formData.printerValue}
+                    onChange={e => setFormData({...formData, printerValue: e.target.value})} 
+                  />
+                </div>
+              )}
+            </div>
+          )}
+
           <button 
             type="submit" disabled={loading} 
             className="w-full bg-[#0ea5e9] text-white py-5 rounded-full font-black text-lg shadow-xl shadow-[#0ea5e9]/20 active:scale-[0.97] transition-all uppercase tracking-widest"

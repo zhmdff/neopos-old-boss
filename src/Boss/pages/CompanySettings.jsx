@@ -47,6 +47,7 @@ const CompanySettings = () => {
     isActive: true,
     packageEndDate: '',
     posLockScreenImage: '',
+    cashierPrinterTarget: '',
   });
 
   const absMedia = (path) => {
@@ -95,6 +96,7 @@ const CompanySettings = () => {
         isActive: d.isActive ?? d.IsActive ?? true,
         packageEndDate: d.packageEndDate ?? d.PackageEndDate ?? '',
         posLockScreenImage: d.posLockScreenImage ?? d.PosLockScreenImage ?? '',
+        cashierPrinterTarget: d.cashierPrinterTarget ?? d.CashierPrinterTarget ?? '',
       });
       if (d.logo ?? d.Logo) {
         setLogoPreview(absMedia(d.logo ?? d.Logo));
@@ -146,6 +148,7 @@ const CompanySettings = () => {
     formData.append('PhoneNumber1', company.phoneNumber1 || '');
     formData.append('PhoneNumber2', company.phoneNumber2 || '');
     formData.append('PhoneNumber3', company.phoneNumber3 || '');
+    formData.append('CashierPrinterTarget', company.cashierPrinterTarget || '');
     formData.append('IsActive', company.isActive ? 'true' : 'false');
     if (logoFile) formData.append('logoFile', logoFile);
     else if (logoPendingClear) formData.append('ClearCompanyLogo', 'true');
@@ -361,6 +364,29 @@ const CompanySettings = () => {
                         className={inputClass}
                       />
                     </div>
+                  </div>
+                </div>
+              </section>
+
+              <section className="border-t border-slate-100 pt-8">
+                <h2 className="mb-4 flex items-center gap-2 text-sm font-semibold text-slate-800">
+                  <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-violet-100 text-violet-700">
+                    <FiPrinter size={16} />
+                  </span>
+                  Printer Ayarları (LAN)
+                </h2>
+                <div className="space-y-4">
+                  <div>
+                    <label className="mb-1.5 block text-xs font-semibold text-slate-600">Kassa Printeri (LAN IP)</label>
+                    <input
+                      placeholder="Məsələn: 192.168.1.60"
+                      value={company.cashierPrinterTarget || ''}
+                      onChange={(e) => setCompany({ ...company, cashierPrinterTarget: e.target.value })}
+                      className={inputClass}
+                    />
+                    <p className="mt-2 text-[10px] text-slate-500 italic">
+                      Backend birbaşa bu IP-yə qoşularaq çek çıxaracaq.
+                    </p>
                   </div>
                 </div>
               </section>
