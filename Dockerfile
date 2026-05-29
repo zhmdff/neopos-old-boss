@@ -2,8 +2,21 @@
 FROM node:22.13.0-alpine AS build
 WORKDIR /app
 
+# Install build dependencies for native modules
+RUN apk add --no-cache \
+    python3 \
+    make \
+    g++ \
+    linux-headers \
+    eudev-dev \
+    libusb-dev \
+    pkgconfig
+
 # Cache bust
 ARG CACHE_BUST=1
+
+# Increase memory for large Vite builds (Crucial for Alpine/Docker)
+ENV NODE_OPTIONS="--max-old-space-size=4096"
 
 # Copy package files
 COPY package*.json ./
