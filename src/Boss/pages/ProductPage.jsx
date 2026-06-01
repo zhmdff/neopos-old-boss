@@ -22,9 +22,14 @@ const ProductPage = () => {
   const [hasMore, setHasMore] = useState(true);
   const take = 10;
   const observer = useRef();
+  const fetchSeq = useRef(0);
+  const searchDebounceRef = useRef(null);
 
   const user = JSON.parse(localStorage.getItem('user'));
-  const companyId = user?.companyId;
+  const companyId = user?.companyId ?? user?.CompanyId;
+
+  const entityId = (row) => row?.id ?? row?.Id ?? '';
+  const entityNameAz = (row) => row?.nameAz ?? row?.NameAz ?? '—';
 
   const fetchFilters = useCallback(async () => {
     if (!companyId) return;
@@ -44,48 +49,76 @@ const ProductPage = () => {
   }, [companyId]);
 
   const fetchProducts = useCallback(async (isInitial = false) => {
-    if (!companyId || loading || (!hasMore && !isInitial)) return;
-    
+    if (!companyId) return;
+    if (!isInitial && (loading || !hasMore)) return;
+
+    const seq = ++fetchSeq.current;
     setLoading(true);
     try {
       const currentSkip = isInitial ? 0 : skip;
       const params = new URLSearchParams({
-        companyId,
+        companyId: String(companyId),
         skip: String(currentSkip),
         take: String(take),
-        search: searchTerm,
       });
-      if (selectedWorkshop) params.set('workshopId', selectedWorkshop);
+      const q = (searchTerm || '').trim();
+      if (q) params.set('search', q);
+      if (selectedWorkshop) params.set('workshopId', String(selectedWorkshop));
       if (selectedCategory === '__uncategorized__') {
         params.set('uncategorizedOnly', 'true');
       } else if (selectedCategory) {
-        params.set('categoryId', selectedCategory);
+        params.set('categoryId', String(selectedCategory));
       }
-      const url = `/Products?${params.toString()}`;
-      const res = await api.get(url);
-      
+      const res = await api.get(`/Products?${params.toString()}`);
+
+      if (seq !== fetchSeq.current) return;
+
+      const rows = Array.isArray(res.data) ? res.data : [];
       if (isInitial) {
-        setProducts(res.data);
+        setProducts(rows);
         setSkip(take);
       } else {
-        setProducts(prev => [...prev, ...res.data]);
-        setSkip(prev => prev + take);
+        setProducts((prev) => [...prev, ...rows]);
+        setSkip((prev) => prev + take);
       }
-      setHasMore(res.data.length === take);
+      setHasMore(rows.length === take);
     } catch (err) {
-      console.error("Məhsulları yükləyərkən xəta:", err);
+      if (seq === fetchSeq.current) {
+        console.error('Məhsulları yükləyərkən xəta:', err);
+        if (isInitial) setProducts([]);
+      }
     } finally {
-      setLoading(false);
+      if (seq === fetchSeq.current) setLoading(false);
     }
   }, [skip, loading, hasMore, searchTerm, selectedCategory, selectedWorkshop, companyId]);
 
   useEffect(() => {
     fetchFilters();
   }, [fetchFilters]);
-  
+
+  // Category / workshop: reload immediately
   useEffect(() => {
+    setHasMore(true);
+    setSkip(0);
+    setProducts([]);
     fetchProducts(true);
-  }, [searchTerm, selectedCategory, selectedWorkshop]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- intentional filter reset
+  }, [selectedCategory, selectedWorkshop]);
+
+  // Search: debounce to avoid stale races
+  useEffect(() => {
+    if (searchDebounceRef.current) clearTimeout(searchDebounceRef.current);
+    searchDebounceRef.current = setTimeout(() => {
+      setHasMore(true);
+      setSkip(0);
+      setProducts([]);
+      fetchProducts(true);
+    }, 350);
+    return () => {
+      if (searchDebounceRef.current) clearTimeout(searchDebounceRef.current);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchTerm]);
 
   const lastElementRef = useCallback(node => {
     if (loading) return;
@@ -139,7 +172,14 @@ const ProductPage = () => {
               {!filtersLoading && (
                 <option value="__uncategorized__">Kateqoriyasız (kök menyuda)</option>
               )}
-              {!filtersLoading && categories.map(c => <option key={c.id} value={c.id}>{c.nameAz}</option>)}
+              {!filtersLoading && categories.map((c) => {
+                const cid = entityId(c);
+                return (
+                  <option key={cid || entityNameAz(c)} value={cid}>
+                    {entityNameAz(c)}
+                  </option>
+                );
+              })}
             </select>
             {filtersLoading ? (
               <span className="pl-1 text-[10px] font-semibold uppercase tracking-wide text-[#0ea5e9]">Kateqoriyalar yüklənir…</span>
@@ -153,7 +193,14 @@ const ProductPage = () => {
               className="w-full cursor-pointer rounded-2xl border border-gray-100 bg-white px-4 py-3.5 text-xs font-bold uppercase text-gray-600 shadow-sm focus:border-[#0ea5e9] focus:outline-none disabled:cursor-wait disabled:opacity-70 lg:w-48"
             >
               <option value="">{filtersLoading ? 'Emalatxanalar yüklənir…' : 'Bütün Emalatxanalar'}</option>
-              {!filtersLoading && workshops.map(w => <option key={w.id} value={w.id}>{w.nameAz}</option>)}
+              {!filtersLoading && workshops.map((w) => {
+                const wid = entityId(w);
+                return (
+                  <option key={wid || entityNameAz(w)} value={wid}>
+                    {entityNameAz(w)}
+                  </option>
+                );
+              })}
             </select>
           </div>
           </div>
