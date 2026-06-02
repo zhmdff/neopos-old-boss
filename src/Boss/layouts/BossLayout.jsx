@@ -10,7 +10,8 @@ import BossPendingDeleteList from '../components/BossPendingDeleteList';
 import BossPwaInstallOffer from '../components/BossPwaInstallOffer';
 import { FiMenu, FiUser, FiLogOut, FiChevronDown, FiX } from 'react-icons/fi';
 import api from '../../api/axios';
-import { isBossPanelAdmin } from '../../utils/bossAdminAuth';
+import { isBossPanelAdmin, getStoredBossToken } from '../../utils/bossAdminAuth';
+import { saveBossSession, clearBossSession } from '../../utils/bossAuthStorage';
 import {
   getLicenseBannerState,
   LICENSE_MODAL_BODY_AZ,
@@ -132,15 +133,21 @@ const BossLayout = () => {
       };
 
       if (!isBossPanelAdmin(merged)) {
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
+        await clearBossSession();
         window.alert('Seçilmiş şirkətdə admin hüququnuz yoxdur. Boss panelinə giriş bağlandı.');
         navigate('/boss/login');
         return;
       }
 
-      if (merged?.token) localStorage.setItem('token', merged.token);
-      localStorage.setItem('user', JSON.stringify(merged));
+      if (merged?.token) {
+        await saveBossSession({
+          token: merged.token,
+          user: merged,
+          rememberMe: true,
+        });
+      } else {
+        await saveBossSession({ token: getStoredBossToken(), user: merged, rememberMe: true });
+      }
       setUser(merged);
       navigate(0); // bütün səhifələr companyId-ni localStorage-dən oxuyur
     } catch (err) {
@@ -151,9 +158,7 @@ const BossLayout = () => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    navigate('/boss/login');
+    void clearBossSession().then(() => navigate('/boss/login'));
   };
 
   return (

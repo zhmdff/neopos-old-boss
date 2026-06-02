@@ -45,17 +45,19 @@ import BossProfilePage from "./Boss/pages/BossProfilePage";
 
 import CustomerMenu from "./QR/pages/CustomerMenu";
 import QRProductCatalog from "./QR/pages/QRProductCatalog";
-import { parseStoredBossUser, isBossPanelAdmin } from "./utils/bossAdminAuth";
+import {
+  parseStoredBossUser,
+  isBossPanelAdmin,
+  getStoredBossToken,
+} from "./utils/bossAdminAuth";
+import { clearBossSession } from "./utils/bossAuthStorage";
 
 const ProtectedRoute = () => {
-  const token = localStorage.getItem("token");
+  const token = getStoredBossToken();
   const user = parseStoredBossUser();
 
   if (!token || !isBossPanelAdmin(user)) {
-    if (token) {
-      localStorage.removeItem("token");
-      localStorage.removeItem("user");
-    }
+    if (token) void clearBossSession();
     return <Navigate to="/boss/login" replace />;
   }
   return <Outlet />;

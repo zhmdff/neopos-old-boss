@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { FiEdit2, FiTrash2, FiBox, FiTag, FiPrinter, FiTruck, FiCoffee } from 'react-icons/fi'; // 🔥 FiTruck əlavə edildi
 import api from '../../../api/axios';
-import { getApiOrigin } from '../../../utils/apiBaseUrl';
+import { mediaUrl } from '../../../utils/mediaUrl';
 import GlobalDeleteModal from '../GlobalDeleteModal';
 import ProductEditModal from './ProductEditModal';
 
@@ -13,8 +13,6 @@ const ProductItem = ({ product, onRefresh }) => {
   const userData = localStorage.getItem('user');
   const user = userData ? JSON.parse(userData) : null;
   const companyId = user?.companyId;
-
-  const IMAGE_BASE = getApiOrigin();
 
   // Çatdırılma qiyməti fərqlidirsə yoxlayırıq
   const hasDifferentDeliveryPrice = product.deliveryPrice && 
@@ -39,12 +37,6 @@ const ProductItem = ({ product, onRefresh }) => {
     }
   };
 
-  const getImageUrl = (path) => {
-    if (!path) return null;
-    const cleanPath = path.startsWith('/') ? path : `/${path}`;
-    return `${IMAGE_BASE}${cleanPath}`;
-  };
-
   return (
     <>
       {/* DESKTOP VIEW - XL ekranlarda cədvəl kimi */}
@@ -52,7 +44,7 @@ const ProductItem = ({ product, onRefresh }) => {
         <div className="col-span-1">
           <div className="flex h-14 w-14 items-center justify-center overflow-hidden rounded-2xl border border-slate-100 bg-slate-50">
             {product.imageUrl ? (
-              <img src={getImageUrl(product.imageUrl)} className="w-full h-full object-cover" alt={product.nameAz} />
+              <img src={mediaUrl(product.imageUrl)} className="w-full h-full object-cover" alt={product.nameAz} />
             ) : (
               <FiBox className="text-gray-300" size={24} />
             )}
@@ -124,7 +116,7 @@ const ProductItem = ({ product, onRefresh }) => {
           <div className="flex min-w-0 items-center gap-3">
             <div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-slate-100 bg-slate-50 sm:h-16 sm:w-16">
               {product.imageUrl ? (
-                <img src={getImageUrl(product.imageUrl)} className="w-full h-full object-cover" alt={product.nameAz} />
+                <img src={mediaUrl(product.imageUrl)} className="w-full h-full object-cover" alt={product.nameAz} />
               ) : (
                 <FiBox className="text-gray-300" size={28} />
               )}

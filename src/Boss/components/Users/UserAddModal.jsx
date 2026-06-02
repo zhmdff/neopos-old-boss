@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FiX } from 'react-icons/fi';
 import api from '../../../api/axios';
+import PasswordInput from '../../../components/PasswordInput';
 
 const UsersAddModal = ({ isOpen, onClose, onRefresh }) => {
   const [roles, setRoles] = useState([]);
@@ -82,7 +83,7 @@ const UsersAddModal = ({ isOpen, onClose, onRefresh }) => {
             </div>
             <div className="space-y-1">
               <label className="text-[11px] font-black text-gray-400 uppercase ml-1">Giriş Şifrəsi</label>
-              <input type="password" required className="w-full px-5 py-4 bg-gray-50 border border-gray-100 rounded-2xl outline-none focus:border-[#0ea5e9] font-bold text-sm text-black" 
+              <PasswordInput required className="w-full px-5 py-4 pr-12 bg-gray-50 border border-gray-100 rounded-2xl outline-none focus:border-[#0ea5e9] font-bold text-sm text-black" 
                 value={formData.password} onChange={e => setFormData({...formData, password: e.target.value})} />
             </div>
             <div className="space-y-1">

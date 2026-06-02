@@ -3,6 +3,7 @@ import axios from 'axios';
 import { FiLink, FiSettings, FiTrash2, FiCheckCircle } from 'react-icons/fi';
 import toast, { Toaster } from 'react-hot-toast';
 import { getApiBaseUrl } from '../../utils/apiBaseUrl';
+import PasswordInput from '../../components/PasswordInput';
 
 const IntegrationCard = ({ title, subtitle, statusLabel, statusTone = 'neutral', actions }) => {
   const tone = useMemo(() => {
@@ -102,13 +103,12 @@ const EkassamParamsModal = ({ isOpen, onClose, company, onSave }) => {
             </div>
             <div>
               <label className="text-[10px] font-black text-gray-400 uppercase ml-2 mb-2 block tracking-widest">API açarı (key)</label>
-              <input
-                type="password"
+              <PasswordInput
                 value={form.ekassamApiKey}
                 onChange={(e) => setForm({ ...form, ekassamApiKey: e.target.value })}
                 placeholder="Dəyişməmək üçün boş saxlayın"
                 autoComplete="new-password"
-                className="w-full bg-gray-50 border-none rounded-2xl p-4 font-bold text-sm focus:ring-2 focus:ring-blue-100 transition-all outline-none"
+                className="w-full bg-gray-50 border-none rounded-2xl p-4 pr-12 font-bold text-sm focus:ring-2 focus:ring-blue-100 transition-all outline-none"
               />
             </div>
           </div>

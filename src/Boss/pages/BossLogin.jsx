@@ -1,22 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PageMeta from '../../PageMeta';
 import { FiUser, FiLock, FiArrowRight, FiX } from 'react-icons/fi';
 import api from '../../api/axios';
 import { useNavigate } from 'react-router-dom';
-import { isBossPanelAdmin } from '../../utils/bossAdminAuth';
+import { isBossPanelAdmin, getStoredBossToken, parseStoredBossUser } from '../../utils/bossAdminAuth';
+import {
+  saveBossSession,
+  getRememberMePreference,
+} from '../../utils/bossAuthStorage';
 import {
   isLicenseBlockedMessage,
   LICENSE_RENEWAL_PHONE_DISPLAY,
   LICENSE_RENEWAL_PHONE_TEL,
 } from '../../utils/companyPackageExpiry';
 import BossPwaInstallOffer from '../components/BossPwaInstallOffer';
+import PasswordInput from '../../components/PasswordInput';
 
 const BossLogin = () => {
   const [formData, setFormData] = useState({ username: '', password: '' });
+  const [rememberMe, setRememberMe] = useState(() => getRememberMePreference());
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [licenseExpiredModalText, setLicenseExpiredModalText] = useState(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = getStoredBossToken();
+    const user = parseStoredBossUser();
+    if (token && isBossPanelAdmin(user)) {
+      navigate('/boss/dashboard', { replace: true });
+    }
+  }, [navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -39,8 +53,11 @@ const BossLogin = () => {
           return;
         }
 
-        localStorage.setItem('token', normalized.token);
-        localStorage.setItem('user', JSON.stringify(normalized));
+        await saveBossSession({
+          token: normalized.token,
+          user: normalized,
+          rememberMe,
+        });
 
         navigate('/boss/dashboard');
       } else {
@@ -100,20 +117,31 @@ const BossLogin = () => {
 
             <div>
               <label className="block text-xs font-bold text-gray-400 uppercase mb-2 ml-1">Şifrə</label>
-              <div className="relative">
-                <span className="absolute inset-y-0 left-0 pl-4 flex items-center text-gray-400">
+              <PasswordInput
+                required
+                disabled={loading}
+                className="w-full pl-12 pr-12 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#0ea5e9] transition-all disabled:opacity-50 font-medium"
+                placeholder="••••••••"
+                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+              >
+                <span className="absolute inset-y-0 left-0 pl-4 flex items-center text-gray-400 pointer-events-none">
                   <FiLock size={18} />
                 </span>
-                <input
-                  type="password"
-                  required
-                  disabled={loading}
-                  className="w-full pl-12 pr-4 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#0ea5e9] transition-all disabled:opacity-50 font-medium"
-                  placeholder="••••••••"
-                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                />
-              </div>
+              </PasswordInput>
             </div>
+
+            <label className="flex cursor-pointer items-center gap-3 rounded-2xl border border-gray-100 bg-gray-50/80 px-4 py-3.5">
+              <input
+                type="checkbox"
+                checked={rememberMe}
+                onChange={(e) => setRememberMe(e.target.checked)}
+                disabled={loading}
+                className="h-5 w-5 rounded border-gray-300 text-[#0ea5e9] focus:ring-[#0ea5e9]"
+              />
+              <span className="text-sm font-bold text-slate-700">
+                Məni xatırla (tətbiqi bağlasanız belə daxil qalın)
+              </span>
+            </label>
 
             <button
               type="submit"
