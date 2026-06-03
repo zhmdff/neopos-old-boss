@@ -5,7 +5,7 @@
   "description": "NeoPos restoran idarəetmə paneli — hesabatlar, menyu, masalar",
   "lang": "az",
   "dir": "ltr",
-  "start_url": "/boss/login?pwa=1",
+  "start_url": "/?pwa=1",
   "scope": "/",
   "display": "standalone",
   "display_override": ["standalone", "minimal-ui"],

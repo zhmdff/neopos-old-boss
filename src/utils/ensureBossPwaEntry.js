@@ -14,7 +14,5 @@ export function ensureBossPwaEntry() {
   const path = window.location.pathname || '';
   if (path.startsWith('/boss')) return;
 
-  const search = window.location.search || '';
-  const next = `/boss/login${search.includes('pwa') ? search : search ? `${search}&pwa=1` : '?pwa=1'}`;
-  window.location.replace(next);
+  window.location.replace('/?pwa=1');
 }

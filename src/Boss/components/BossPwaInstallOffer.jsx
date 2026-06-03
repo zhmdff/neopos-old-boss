@@ -124,10 +124,10 @@ export default function BossPwaInstallOffer() {
               {iosMode && !canChromeInstall ? (
                 <>
                   <FiShare2 className="mr-1 inline-block align-text-bottom" size={14} />
-                  Safari: <span className="font-bold text-sky-700">/boss/login</span> səhifəsində
-                  qalın, sonra <span className="font-bold text-sky-700">Paylaş</span> →{' '}
+                  Safari: əsas səhifədə (<span className="font-bold text-sky-700">saytın kökü</span>,
+                  login görünən URL) <span className="font-bold text-sky-700">Paylaş</span> →{' '}
                   <span className="font-bold text-sky-700">Ana ekrana əlavə et</span>. Köhnə ikon
-                  404 verirsə, ikonu silib yenidən əlavə edin.
+                  404 verirsə, silin və yenidən əlavə edin.
                 </>
               ) : androidChrome && !canChromeInstall ? (
                 swReady ? (
