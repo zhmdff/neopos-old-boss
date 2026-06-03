@@ -1,0 +1,14 @@
+{
+  "navigationFallback": {
+    "rewrite": "/index.html",
+    "exclude": ["/api/*", "/notificationHub/*", "/uploads/*", "*.{css,js,json,png,ico,webmanifest,svg,woff,woff2}"]
+  },
+  "routes": [
+    {
+      "route": "/site.json",
+      "headers": {
+        "Content-Type": "application/manifest+json"
+      }
+    }
+  ]
+}

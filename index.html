@@ -43,8 +43,9 @@
     <script>
       (function () {
         var path = location.pathname || '';
-        if (path.indexOf('/boss') !== 0) return;
-        document.title = 'NeoPos Boss';
+        if (path.indexOf('/boss') === 0) {
+          document.title = 'NeoPos Boss';
+        }
         if ('serviceWorker' in navigator) {
           navigator.serviceWorker
             .register('/sw.js', { scope: '/', updateViaCache: 'none' })
