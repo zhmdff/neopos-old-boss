@@ -1,6 +1,7 @@
 /**
- * Ana ekrana əlavə edilmiş tətbiq (PWA) həmişə Boss panelindən açılsın.
- * QR (/q/...) və ya əsas səhifədən əlavə edilsə belə, standalone rejimdə /boss-a yönləndirir.
+ * Ana ekrana əlavə edilmiş tətbiq (PWA) Boss girişindən açılsın.
+ * Manifest `start_url` = `/?pwa=1` (path `/`) — bura redirect ETMƏ (sonsuz döngü).
+ * QR (/q/...) və s. standalone açılışları → /boss/login?pwa=1
  */
 export function ensureBossPwaEntry() {
   if (typeof window === 'undefined') return;
@@ -11,8 +12,8 @@ export function ensureBossPwaEntry() {
 
   if (!isStandalone) return;
 
-  const path = window.location.pathname || '';
-  if (path.startsWith('/boss')) return;
+  const path = (window.location.pathname || '').replace(/\/+$/, '') || '/';
+  if (path === '/' || path.startsWith('/boss')) return;
 
-  window.location.replace('/?pwa=1');
+  window.location.replace('/boss/login?pwa=1');
 }

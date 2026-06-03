@@ -15,8 +15,11 @@ if (typeof window !== 'undefined' && window.location.pathname.startsWith('/q/'))
   applyStoredQrTheme()
 }
 
-if (typeof window !== 'undefined' && window.location.pathname.startsWith('/boss')) {
-  void registerBossServiceWorker()
+if (typeof window !== 'undefined') {
+  const p = window.location.pathname || '';
+  if (p === '/' || p.startsWith('/boss')) {
+    void registerBossServiceWorker();
+  }
 }
 
 async function startApp() {
